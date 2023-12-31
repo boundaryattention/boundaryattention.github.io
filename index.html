@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+    <!--Main Scripts-->
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="script.js" defer></script>
+    <!-- MatJax -->
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+    </script>
+    <script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_CHTML">
+    </script>
+    <!--Jquery-->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js" defer></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-migrate-1.2.1.min.js" defer></script>
+    <!--Slick-->
+    <link rel="stylesheet" type="text/css" href="utils/slick/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="utils/slick/slick-theme.css"/>
+    <script type="text/javascript" src="utils/slick/slick.min.js" defer></script>
+    <!--Favicon-->
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <!--Twenty Twenty Theme-->
+    <link rel="stylesheet" href="utils/twentytwenty/twentytwenty.css" type="text/css" media="screen" />
+    <script src="utils/twentytwenty/jquery.event.move.js" type="text/javascript" defer></script>
+    <script src="utils/twentytwenty/jquery.twentytwenty.js" type="text/javascript" defer></script>
+    <script src="utils/twentytwenty/imagesloaded.pkgd.js" type="text/javascript" defer></script>
+    <title>Boundary Attention</title>
+</head>
+
+<body>
+<div class="toggle-container">
+    <button id="toggleButton" class="inactive">Dark Mode</button>
+
+    <div id="navigateAndButton">
+    <a href=#menu class="scroll-link"><button id="jumpTo">Navigate</button></a>
+    <div id="navigation-content">
+    <div id="navigation">
+        <span class="inline-heading-2"><a href=#header class="scroll-link">Return to Top</a></span>
+        <span class="inline-heading"><a href=#Overview class="scroll-link">1. Overview</a></span>
+        <span class="inline-heading"><a href=#ModelDetails class="scroll-link">2. Model Details</a></span>
+        <p><a href=#JunctionSpace class="scroll-link">a. Junction Space</a></p>
+        <p><a href=#BAModel class="scroll-link">b. Boundary Attention</a></p>
+        <p><a href=#Training class="scroll-link">c. Training Data</a></p>
+        <span class="inline-heading"><a href=#ModelBehavior class="scroll-link">3. Emergent Properties</a></span> 
+        <p><a href=#NaturalImages class="scroll-link">a. Natural Images</a></p>
+        <p><a href=#ELDOutput class="scroll-link">b. Low Light Boundary Detection</a></p>
+        <p><a href=#Upsampling class="scroll-link">c. Output Boundaries</a></p>
+        <p><a href=#HiddenEvolution class="scroll-link">d. Evolution of Boundaries</a></p>
+        <p><a href=#SpatialAffinity class="scroll-link">e. Output Spatial Affinities</a></p>
+        <p><a href=#LearnedEmbedding class="scroll-link">f. Embedding of Junction Space</a></p>
+
+        <span class="inline-heading">4. Misc Links</span>
+        <p>Arxiv - Code - Dataset - <a href=#citation class="scroll-link">BibTex</a> -  <a href=#contactInfo class="scroll-link">Contact Info</a></p>
+        
+    </div> <!--navigation-->
+    </div> <!--navigation-content-->
+    </div> <!--navigateAndButton-->
+</div> <!--toggle-container-->
+
+<div class="outer-container">
+
+    <div class="header", id="header">
+        <h1>Boundary Attention</h1>
+        <p class="subheading">Learning to Find Faint Boundaries at Any Resolution</p>
+        <p class="paper-links">
+                
+            <button class="coming-soon-button" id="paperLinkButton">
+            <span class="icon">
+                <svg class="svg-inline--fa fa-file-pdf fa-w-12" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="file-pdf" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" data-fa-i2svg=""><path fill="currentColor" d="M181.9 256.1c-5-16-4.9-46.9-2-46.9 8.4 0 7.6 36.9 2 46.9zm-1.7 47.2c-7.7 20.2-17.3 43.3-28.4 62.7 18.3-7 39-17.2 62.9-21.9-12.7-9.6-24.9-23.4-34.5-40.8zM86.1 428.1c0 .8 13.2-5.4 34.9-40.2-6.7 6.3-29.1 24.5-34.9 40.2zM248 160h136v328c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V24C0 10.7 10.7 0 24 0h200v136c0 13.2 10.8 24 24 24zm-8 171.8c-20-12.2-33.3-29-42.7-53.8 4.5-18.5 11.6-46.6 6.2-64.2-4.7-29.4-42.4-26.5-47.8-6.8-5 18.3-.4 44.1 8.1 77-11.6 27.6-28.7 64.6-40.8 85.8-.1 0-.1.1-.2.1-27.1 13.9-73.6 44.5-54.5 68 5.6 6.9 16 10 21.5 10 17.9 0 35.7-18 61.1-61.8 25.8-8.5 54.1-19.1 79-23.2 21.7 11.8 47.1 19.5 64 19.5 29.2 0 31.2-32 19.7-43.4-13.9-13.6-54.3-9.7-73.6-7.2zM377 105L279 7c-4.5-4.5-10.6-7-17-7h-6v128h128v-6.1c0-6.3-2.5-12.4-7-16.9zm-74.1 255.3c4.1-2.7-2.5-11.9-42.8-9 37.1 15.8 42.8 9 42.8 9z"></path></svg><!-- <i class="fas fa-file-pdf"></i> Font Awesome fontawesome.com -->
+                </span>
+            Paper
+            </button>
+
+            <button class="coming-soon-button" id="paperLinkButton">
+            <span class="icon">
+                <i class="ai ai-arxiv"::before></i>
+            </span>
+            Arxiv
+            </button>
+
+            <button class="coming-soon-button" id="paperLinkButton">
+            <span class="icon">
+                <svg class="svg-inline--fa fa-github fa-w-16" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="github" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" data-fa-i2svg=""><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path></svg><!-- <i class="fab fa-github"></i> Font Awesome fontawesome.com -->
+            </span>
+            Code
+            </button>
+
+            <button class="coming-soon-button" id="paperLinkButton">
+            Dataset
+            </button>
+
+            <a href=#citation class="scroll-link">
+            <button id="paperLinkButton">
+            BibTeX
+            </button>
+            </a>
+
+        </p>
+            
+        <p class="authors">
+            <span class="author" id="author1">Mia Gaia Polansky<sup>1,2</sup></span>, 
+            <span class="author" id="author2">Charles Herrmann<sup>1</sup></span>, 
+            <span class="author" id="author3">Junhwa Hur<sup>1</sup></span>, 
+            <span class="author" id="author4">Deqing Sun<sup>1</sup></span>, 
+            <span class="author" id="author5">Dor Verbin<sup>1</sup></span>, 
+            <span class="author" id="author6">Todd Zickler<sup>1</sup></span>
+        </p>
+        <p class="associations">
+            <span class="associations"></span><sup>1</sup>Google Research<img src="images/google.png" alt="Icon 2"></span>
+            <span class="associations"><sup>2</sup>Harvard University<img src="images/harvard.png" alt="Icon 1"></span>
+        </p>
+    </div> <!--Header-->
+
+    <div class="tldr">
+        <p>
+        We introduce a form of local attention that infers unrasterized boundaries&#8212;including contours, corners and junctions&#8212;from the bottom-up.
+        </p>
+    </div> <!--TLDR-->
+
+    <div class="demo", id="ImageDemo">
+        <div class="grid-container", id="DemoGrid">
+            <div class="image-container-in">
+                <div class="interactive-icon", id="demoFinger">
+                    <img src="images/interactive.png">
+                </div>
+                <div class="cursor-box" id="cursorBox" ></div>
+                <img src="images/demo_image1/input_image.png" alt="Inputs" id="mainImage">
+            </div>
+            <div class="image-container-out2">
+                <div class="custom-cursor2" id="customCursor2"></div>  
+                <img src="images/demo_image1/output_features.png" alt="Outputs" id="mainImageOut2">   
+            </div>
+            <div class="image-container-out3">
+                <div class="custom-cursor3" id="customCursor3"></div> 
+                <img src="images/demo_image1/output_boundaries.png" alt="Outputs" id="mainImageOut3">   
+            </div>
+            <div class="image-container-out1", id="ImageContainerOut1">
+                <div class="attention-image-container-out", id="AttentionContainerOut">
+                    <div class="custom-cursor1" id="customCursor1"></div>
+                    <img src="images/demo_image1/attention_output_boundaries_PuBu.png", class="attention-background-image", id="mainImageOut1">
+                </div>
+                <div class="attention-overlay-image-container", id="attentionOverlay">
+                    <div class="attention-overlay-box", id="attentionOverlayBox">
+                        <img src="images/demo_image1/jet_output_attention_maps_200.png", class="attention-overlay-image", id="attentionOverlayImage">
+                    </div>
+                </div>
+            </div>
+
+        <span class="label">Input</span>
+        <span class="label">Smooth colors</span>
+        <span class="label">Boundaries</span>
+        <span class="label">Spatial affinities</span>
+        
+        <div class="zoomin-container-input"><div id="zoomedViewport"><img src="images/demo_image1/input_patches.png" id="zoomedImage1"></div></div>
+        <div class="zoomin-container"><div id="zoomedViewport"><img src="images/demo_image1/output_feature_patches.png" id="zoomedImage3"></div></div>
+        <div class="zoomin-container"><div id="zoomedViewport"><img src="images/demo_image1/output_boundary_patches.png" id="zoomedImage4"></div></div>
+        <div class="zoomin-container"><div id="zoomedViewport"><img src="images/demo_image1/output_scale_patches.png" id="zoomedImage2"></div></div>
+    
+        <span class="label">Unfolded input patches</span>
+        <span class="label">Partitions: colors</span>
+        <span class="label">Partitions: boundaries</span>
+        <span class="label">Windowing functions</span>
+        </div> <!-- grid-container -->
+    
+        <div class="input-home">
+        <div class="input-selection", id="InputSelection">
+                <div class="image-selection-container"><img src="images/demo_image1/input_image.png" alt="Inputs" id="input1"></div>
+                <div class="image-selection-container"><img src="images/demo_image_bike/input_image.png" alt="Inputs" id="input2"></div>
+                <div class="image-selection-container"><img src="images/demo_image_pinwheel/input_image.png" alt="Inputs" id="input3"></div>
+                <div class="image-selection-container"><img src="images/demo_image_temple/input_image.png" alt="Inputs" id="input4"></div>
+        </div> <!--input-selection-->
+        </div> <!--input-home-->
+
+    </div> <!--Demo-->
+
+    <div class="section", id="Overview">
+
+        <h2>Overview</h2>
+        <div class="subsection">
+        <p>
+        We introduce a lightweight, bottom-up model that infers color-based boundaries with high-precision.
+        Output boundaries are represented by pixel-resolution vector fields that encode three-way
+        partitions and associated windowing functions of every stride-1 patch in an image.
+        This output can express a variety of boundary elements, including contours,
+        thin bars, corners, T-junctions and Y-junctions.
+        It expresses them without rasterization, and so with unlimited resolution. 
+        <p>
+        The figure's bottom row shows these outputs as you scroll,
+        with each patch's partition visualized by both its boundaries its segment colors.
+        Various "foldings" of these overlapping patches lead to the pixel-resolution output maps
+        in the figure's top row: a boundary-aware smoothing of the input colors, a global boundary map
+        (represented by as an unsigned distance function), and the spatial affinities between each pixel
+        and all of its neighbors. 
+        </p>
+        <p>
+        The core of our model is a specialized form of neighborhood self-attention
+        that we call Boundary Attention. We find that we can train it to a useful state
+        using very simple synthetic images, which suggests it has an inductive bias for boundaries.
+        Also, since all of its operations are local and bottom-up, we can train it on small
+        images and then deploy it at any image size and aspect ratio.
+        </p>
+        </div> <!--subsection-->
+
+    </div> <!--Overview-->
+
+    <div id="menu">
+        <h2>Jump to...</h2>
+    </div> <!--Menu-->
+
+    <div class="section", id="ModelDetails">
+        <h2>Model Details</h2>
+
+        <div class="subsection" id="JunctionSpace">
+            <h2>Representing Per-Patch Boundaries in Junction Space</h2>
+            <p>
+            We describe each patch's three-way partition by parameters $g \in \mathbb{R}^2 \times \mathbb{S}^1 \times \Delta^2$,
+            comprising a vertex $(u,v)$, orientation $\theta$ and relative angles
+            $(\omega_1,\omega_2,\omega_3)$ that sum to $2\pi$.
+            The partition implies an unsigned distance map to the patch's boundaries.
+            </p>
+            <p>
+            By allowing the vertex to move outside of the patch and allowing one or two angles to be zero,
+            this parameter space, called junction space, can represent a variety of local boundary patterns,
+            including uniformity (i.e., absence of boundaries), edges, bars, corners, T-junctions and Y-junctions.
+            </p>
+            <p>If you are familiar with the <a href="https://vision.seas.harvard.edu/foj/" target="_blank" rel="noopener noreferrer">field of junctions</a>, 
+            our parameterization is a variation of theirs, with the addition of local windowing functions that avoid having to choose a specific patch size.
+            </p>
+        </div>
+
+        <div class="junction-visualization">
+            <div class="junction-demo">
+                <div id="junction-display">
+                    <img id="current-junction-image" src="images/interpolation/interpolation_40.png">
+                </div>
+                
+                <div class="slider-container">
+                    <input type="range" class="image-slider" id="junctionSliderContainer" min="1" max="9" step="Any">
+                    <!-- <div class="slider-ticks-2">
+                        <div class="slider-tick-container">
+                            <span class="tick"></span>
+                            <span class="tick"></span>
+                            <span class="tick"></span>
+                            <span class="tick"></span>
+                            <span class="tick"></span>
+                            <span class="tick"></span>
+                            <span class="tick"></span>
+                        </div>
+                    </div> -->
+                    <img src="images/junction_interpolation_v2.png">
+                </div>
+            </div>
+            <div id="junctionNotation">
+                <img src="images/JunctionNotation.png">
+            </div>
+        </div>
+
+        <div class="subsection" id="BAModel">
+            <h2>Boundary Attention</h2>
+            <div id="networkImage">
+                <img src="images/network.png" class="image" id="networkImage">
+                </div>
+            <p>
+            Our model produces the output vector fields by learning an embedding $\gamma$ of junction parameters
+            $g$ and iteratively updating the pixel-resolution field of these embeddings $\gamma[n]$ using a
+            specialized variant of neighborhood dot-product attention. It simultaneously updates a field of
+            embedded windowing functions $\pi[n]$.
+            </p>
+            <p>
+            The model uses eight iterations of boundary attention in total,
+            with some weight-sharing across iterations. The entire model is invariant
+            to discrete spatial shifts and so applies to inputs of any size. It is fairly compact,
+            with only 207k parameters.
+            </p>
+            <p>
+            Boundary Attention utilizes two operations—<i>gather</i> and <i>slice</i>—to render patchwise and global outputs
+            from the estimated junction parameters. Gathering finds the average feature for each segment of a
+            junction (for example, the colors superimposed onto the rendered junctions in the
+            <a href=#ImageDemo class="scroll-link">demo</a>).
+
+            Slicing "folds" the output overlapping patches into pixelwise global outputs.
+            Slicing requires defining a function to merge the contributions from multiple patches
+            into per-pixel outputs. For visualizations of the smoothed features and boundaries, we use averaging.
+            </p>
+        </div>
+
+        <div class="subsection", id="Training">
+            <h2>Training Data</h2>
+            <div class="dataset-grid">
+                <div id="datasetText">
+                <p>
+                We find it sufficient to train the model on simple synthetic data, 
+                consisting of overlapping circles and squares. Each shape is uniformly colored,
+                and the images are "augmented" during training by perturbing them with varying types and amounts of noise.
+                </p>
+                <p>
+                We train our model to predict the unsigned distance function for the true visible boundaries,
+                which is known up to machine precision.
+                </p>
+                </div>
+                <div id="datasetImage">
+                    <img src="images/example_data_with_distance_maps.png" class="image" id="dataset">
+                </div>
+            </div>
+        </div>
+    </div> <!--ModelDetails-->
+
+    <div class="section", id="ModelBehavior">
+        <h2>Emergent Properties</h2>
+
+        <div class="subsection" id="NaturalImages">
+            <h2>Generalization to Natural Images</h2>
+            <p>
+            Despite being trained on very simple synthetic data,
+            the model provides reasonable boundaries for natural images.
+            The boundaries are combinations of fine geometric structures and coarse ones,
+            and they are quite stable across exposure conditions that have varying amounts of sensor noise.
+            The qualitative properties of our model's boundaries are somewhat different from those of classical
+            bottom-up methods and from those of learned, end-to-end models that are trained to match human annotations.
+            Its boundaries are based purely on color and so include finer structures than those of end-to-end systems.
+            And its inference of local window sizes allows it to produce both fine and coarse structures,
+            unlike many classical bottom-up methods that use a single patch-size everywhere.
+            </p>
+
+            <h3>Visual Comparison</h3>
+
+            <div id="comparisonImage">
+                <div class="comparison-grid">
+                <span class="label"></span>
+                <span class="label">Top-down: trained on human annotations</span>
+                </div>
+                <img src="images/comparison.png", class="image">
+                <div class="comparison-grid">
+                    <span class="label">Bottom-up: trained on synthetic data</span>
+                    <span class="label">Bottom-up: no training</span>
+                </div>
+            </div>
+
+            <h3>More Examples</h3>
+
+            <div class="results-grid2">
+                <div class="header-item1"><span class="label">Input</span></div>
+                <div class="header-item2"><span class="label">Distances</span></div>
+                <div class="header-item3"><span class="label">Boundaries</span></div>
+                <div class="header-item4"><span class="label">Smoothed Features</span></div>
+                <div class="result"><img src="images/natural_images/napkin.png"></div>
+                <div class="result"><img src="images/natural_images/plant.png"></div>
+                <!-- <div class="result"><img src="images/natural_images/tissue.png"></div> -->
+            </div>
+            <div class="results-grid">
+                <div class="header-item1"><span class="label">Input</span></div>
+                <div class="header-item2"><span class="label">Boundaries</span></div>
+                <div class="header-item3"><span class="label">Smoothed Features</span></div>
+                <div class="result"><img src="images/natural_images/japan_house.png"> </div>
+                <!-- <div class="result"><img src="images/natural_images/japan_art.png"> </div> -->
+                <div class="result"><img src="images/natural_images/japan_dog.png"> </div>
+            </div>
+        </div>
+
+        <div class="subsection" id="ELDOutput">
+            <h2>Low Light Boundary Detection</h2>
+            <p>
+            Our model produces crisp boundaries for photographs with high levels of sensor noise.
+            Its success is in part due to the inferred local windowing functions.
+            In general, smaller windows are good for recovering fine structures in low-noise situations
+            but can cause false boundaries at high noise levels. Conversely, larger windows provide
+            more resilience to noise but cannot recover fine structures. By automatically inferring
+            a window for every patch, our model combines the benefits of both. 
+            </p>
+            <div class="ELD-demo">
+                <div class="ELD-demo-labels">
+                <span class="label">Input</span>
+                <span class="label">Ours</span>
+                <span class="label">EDTER</span>
+                <span class="label">HED</span>
+                <span class="label">Pidinet</span>
+                <span class="label">Structured Forests</span>
+                <span class="label">Field of Junctions-17</span>
+                <span class="label">Canny, $\sigma=2$</span>
+                </div>
+
+                <div class="ELD-demo-image">
+                <div class="ELD-demo-crop"><img src="images/ELD/ELD_baby.png" class="ELDImage"></div>
+                <div class="ELD-demo-crop"><img src="images/ELD/ELD_oogle_eye.png" class="ELDImage"></div>
+                <div class="ELD-demo-crop"><img src="images/ELD/ELD_totoro.png" class="ELDImage"></div>
+                <div class="ELD-demo-crop"><img src="images/ELD/ELD_blobs.png" class="ELDImage"></div>
+                </div>
+                
+                <div class="slider-container" id="ELDSliderContainer">
+                    <input type="range" class="image-slider" id="ELDImageSlider" min="0" max="4" step="1", value="0">
+                    <div class="slider-ticks">
+                    <div class="slider-tick-container">
+                        <span class="tick"></span>
+                        <span class="tick"></span>
+                        <span class="tick"></span>
+                        <span class="tick"></span>
+                        <span class="tick"></span>
+                    </div>
+                    </div>
+                    <table style="text-align: center; padding-left: 0px; padding-right: 0%; width: 150%;", id="slider-labels">
+                        <tbody><tr>
+                            <td>← Low Noise</td>
+                            <td>High Noise →</td>
+                        </tr></tbody>
+                    </table>
+                </div> <!--slider-container-->
+            </div>
+        </div>
+
+        <div class="subsection" id="Upsampling">
+            <h2>Output Boundaries</h2>
+            <p>
+            Our network estimates a junction for all overlapping patches in
+            an image, each of which maps to a distance map. <i>Slicing</i> these
+            distance map patches using averaging gives a global distance map, which we can
+            render as boundaries by applying a nonlinearity.
+            Crucially, junctions are unrasterized representations of patch partitions so we can render them
+            at any size or resolution.
+            This leads to many useful editing capabilities, such as the ability to easily upsample output boundary maps (left)
+            by rendering the patches at a higher resolution and slicing with $\text{stride}>1$, 
+            as well as the ability to thin and thicken boundaries by adjusting the applied nonlinearity (right).
+            </p>
+
+            <div class="post-process-demos">
+            <div class="upsampling-demo">
+                <div class="upsampling-visualization">
+                    <div class="upsampling-visualization2">
+                        <span class="label">Input</span>
+                        <span class="label">Distance Map</span>
+                        <div class="upsampling-input"><img src="images/upsampling/input_image.png"></div>
+                        <div class="upsampling-input"><img src="images/upsampling/output_distances.png"></div>
+                        <span class="label"></span>
+                        <span class="label">Boundaries</span>
+                        <div class="upsampling-input"></div>
+                        <div class="upsampling-input"><img src="images/upsampling/output_original_boundaries.png"></div>
+                    </div>
+                <div>
+                <span class="label">Our $2\times$ upsampled boundaries vs naïve bilinear interpolation</span>
+                <div id="before-after">
+                    <!-- The before image is first -->
+                    <img src="images/upsampling/output_our_upsampled_medium_boundaries.png">
+                    <!-- The after image is last -->
+                    <img src="images/upsampling/output_bilinear_interpolation_medium_boundaries.png">
+                </div>
+                </div>
+                </div> <!--upsampling-visualization-->
+            </div>
+
+            <div class="thickness-demo">
+                <div id="thickness-display">
+                    <img id="current-thickness-image" src="images/upsampling/thickened/thickened_boundaries_20.png">
+                </div>
+
+                <div class="slider-container" id="thicknessSliderContainer">
+                    <input type="range" class="image-slider" id="thicknessSlider" min="1" max="39" step="Any", value="20">
+                    <table style="text-align: center; padding-left: 0px; padding-right: 0%; width: 130%;", id="slider-labels">
+                        <tbody><tr>
+                            <td>← Thinner </td>
+                            <td>Thicker →</td>
+                        </tr></tbody>
+                    </table>
+                </div> <!--slider-container-->
+            </div>  <!--thickness-demo-->
+            </div> <!--post-process-demos-->
+
+        </div>
+
+        <div class="subsection" id="HiddenEvolution">
+            <h2>Evolution of Boundaries</h2>
+            <p>
+            At any point during the iterations, we can probe the per-patch partitions and windowing
+            functions by applying learned linear mappings from their embedding spaces,
+            $\gamma\mapsto g$ $\pi\mapsto p$. Experimentally, we find that the inferred partitions and
+            boundaries are exploratory and unstructured during early iterations, and then become
+            spatially-consistent during later ones.
+            </p>
+            <img src="images/evolution2.png" class="image">
+        </div>
+
+        <div class="subsection" id="SpatialAffinity">
+            <h2>Output Spatial Affinities</h2>
+            <div class="spatial-affinity">
+            <div class="attentionAnimation">
+            <!-- <img src="images/attention_animation.gif" class="image"> -->
+            
+            <div class="image-container-out1", id="ImageContainerOut12">
+                <div class="interactive-icon", id="demoFinger2">
+                    <img src="images/interactive.png">
+                </div>
+                <div class="attention-image-container-out", id="AttentionContainerOut2">
+                    <div class="custom-cursor1" id="customCursor1-2"></div>
+                    <img src="images/demo_image1/attention_output_boundaries_PuBu.png", class="attention-background-image", id="mainImageOut12">
+                </div>
+                <div class="attention-overlay-image-container", id="attentionOverlay2">
+                    <div class="attention-overlay-box", id="attentionOverlayBox2">
+                        <img src="images/demo_image1/jet_output_attention_maps_200.png", class="attention-overlay-image", id="attentionOverlayImage2">
+                    </div>
+                </div>
+            </div>
+            </div>
+            <p>
+            <!-- Another type of <i>slicing</i> of the output patches allows us 
+            to visualize the learned pairwise affinities of pixels in the input. -->
+            Another way to visualize the network's output is through the pairwise affinities of pixels in the input.
+            For any query pixel, we visualize its spatial affinity with neighboring pixels
+            as the normalized sum of all of the junction segments that contain it.
+            In other words, for each pixel we visualize the weighted contribution of neighboring pixels during <i>slicing</i>.
+            Notably, the affinities respect image boundaries, so pixels across boundaries
+            seldom contribute to the query pixel's global outputs.
+            </p>
+            </div>
+        </div>
+
+        <div class="subsection" id="LearnedEmbedding">
+            <h2>Embedding of Junction Space</h2>
+            <p>
+            We also find that the model's learned embedding of junction space is smooth.
+            The top row of this figure visualizes equally-spaced samples, in the Euclidean sense,
+            of embeddings $\gamma_i$ from starting point $\gamma_a$ to $\gamma=0$ and to ending point
+            $\gamma_b$. For comparison, the bottom row shows a comparable, analytically-designed
+            interpolation in junction space $\mathbb{R}^2 \times \mathbb{S}^1 \times \Delta^2$.
+            Interestingly, the model learns to associate $\gamma=0$ with nearly-equal angles and a
+            vertex close to the patch center.
+            </p>
+            <img src="images/interpolation.png" class="image" id="interpolation">
+        </div> 
+
+    </div> <!--ModelBehavior-->
+
+
+    <div id="citation">
+        <h2>BibTeX</h2>
+        <code id="myCode">@article{mia2023boundaries,
+            author    = {Polansky, Mia and Herrmann, Charles and Hur, Junhwa and Sun, Deqing
+                        and Verbin, Dor and Zickler, Todd},
+            title     = {Boundary Attention: Learning to Find Faint Boundaries at Any Resolution},
+            journal   = {arXiv},
+            year      = {2023},
+            }</code>
+        <button id="copyButton">Copy</button>
+        
+        <div id="contactInfo">
+        <h2>Contact Info</h2>
+        <p> Always happy to chat at miapolansky at g.harvard.edu.</p>
+        </div>
+    </div> <!--Citation-->
+
+</div> <!--outer container-->
+
+</body>
+
+</html>
