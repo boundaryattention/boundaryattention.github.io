@@ -42,6 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
 
+      // Define scroll links
       const scrollLinks = document.querySelectorAll('.scroll-link');
 
       scrollLinks.forEach(function (link) {
@@ -57,17 +58,16 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         });
       });
-
+    
+    // Menu/navigation controls
     const navigationButton = document.getElementById("jumpTo");
     const navigation = document.getElementById("navigation");
 
     navigationButton.addEventListener("mouseenter", (event) => {
-        // navigation.style.visibility = "visible";
         navigation.style.display = 'flex';
     });
 
     navigation.addEventListener("mouseleave", (event) => {
-        // navigation.style.visibility = "hidden";
         navigation.style.display = 'none';
     });
 
@@ -133,7 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    //Twentytwenty
+    // Twentytwenty
     $('#before-after').imagesLoaded( function() {
         $('#before-after').twentytwenty({
             no_overlay: true, //Do not show the overlay with before and after
@@ -218,7 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // const borderWidth = 2; // Width of the border
 
     const demoBox = document.getElementById('ImageDemo');
-    const mainImage = document.getElementById('mainImage');
+    const mainImage = document.getElementById('imageContainerIn');
     // Note: because the overlay image covers mainImageOut1, we use its container as a tracking proxy
     const mainImageOut1 = document.getElementById('ImageContainerOut1');
     const mainImageOut2 = document.getElementById('mainImageOut2');

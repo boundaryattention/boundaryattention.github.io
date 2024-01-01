@@ -124,7 +124,7 @@
 
     <div class="demo", id="ImageDemo">
         <div class="grid-container", id="DemoGrid">
-            <div class="image-container-in">
+            <div class="image-container-in" id="imageContainerIn">
                 <div class="interactive-icon", id="demoFinger">
                     <img src="images/interactive.png">
                 </div>
@@ -191,7 +191,7 @@
         It expresses them without rasterization, and so with unlimited resolution. 
         <p>
         The figure's bottom row shows these outputs as you scroll,
-        with each patch's partition visualized by both its boundaries its segment colors.
+        with each patch's partition visualized by both its boundaries and its segment colors.
         Various "foldings" of these overlapping patches lead to the pixel-resolution output maps
         in the figure's top row: a boundary-aware smoothing of the input colors, a global boundary map
         (represented by as an unsigned distance function), and the spatial affinities between each pixel
@@ -273,19 +273,10 @@
             </p>
             <p>
             The model uses eight iterations of boundary attention in total,
-            with some weight-sharing across iterations. The entire model is invariant
-            to discrete spatial shifts and so applies to inputs of any size. It is fairly compact,
+            with some weight-sharing across iterations.  It includes two parameter-free operations—gather and slice—that
+            perform rasterizations and foldings which are specific to junctions. The entire model is invariant
+            to discrete spatial shifts and so applies to inputs of any size. It is also fairly compact,
             with only 207k parameters.
-            </p>
-            <p>
-            Boundary Attention utilizes two operations—<i>gather</i> and <i>slice</i>—to render patchwise and global outputs
-            from the estimated junction parameters. Gathering finds the average feature for each segment of a
-            junction (for example, the colors superimposed onto the rendered junctions in the
-            <a href=#ImageDemo class="scroll-link">demo</a>).
-
-            Slicing "folds" the output overlapping patches into pixelwise global outputs.
-            Slicing requires defining a function to merge the contributions from multiple patches
-            into per-pixel outputs. For visualizations of the smoothed features and boundaries, we use averaging.
             </p>
         </div>
 
@@ -415,15 +406,12 @@
         <div class="subsection" id="Upsampling">
             <h2>Output Boundaries</h2>
             <p>
-            Our network estimates a junction for all overlapping patches in
-            an image, each of which maps to a distance map. <i>Slicing</i> these
-            distance map patches using averaging gives a global distance map, which we can
-            render as boundaries by applying a nonlinearity.
-            Crucially, junctions are unrasterized representations of patch partitions so we can render them
-            at any size or resolution.
-            This leads to many useful editing capabilities, such as the ability to easily upsample output boundary maps (left)
-            by rendering the patches at a higher resolution and slicing with $\text{stride}>1$, 
-            as well as the ability to thin and thicken boundaries by adjusting the applied nonlinearity (right).
+            The output junction $g[n]$ at each pixel $n$ implies an unsigned distance map over the windowed patch surrounding it.
+            To get a global unsigned distance map for the image, we simply compute the pixel-wise average (“slice”) of
+            the overlapping patches. We visualize this global map by applying a non-linearity to amplify its zero-distance set,
+            and we call this the output boundary map. 
+            This definition of output boundaries is unrasterized and so can be rendered at any resolution and thickness.
+            Below, we render them at super-resolution (left) and change their thickness by adjusting our non-linearity's parameter (right).
             </p>
 
             <div class="post-process-demos">
@@ -473,11 +461,8 @@
         <div class="subsection" id="HiddenEvolution">
             <h2>Evolution of Boundaries</h2>
             <p>
-            At any point during the iterations, we can probe the per-patch partitions and windowing
-            functions by applying learned linear mappings from their embedding spaces,
-            $\gamma\mapsto g$ $\pi\mapsto p$. Experimentally, we find that the inferred partitions and
-            boundaries are exploratory and unstructured during early iterations, and then become
-            spatially-consistent during later ones.
+            At any point during the iterations, we can probe the intermediate junctions and their implied boundaries.
+            We find they are exploratory and unstructured during early iterations, and become spatially-consistent during later ones.
             </p>
             <img src="images/evolution2.png" class="image">
         </div>
@@ -504,14 +489,11 @@
             </div>
             </div>
             <p>
-            <!-- Another type of <i>slicing</i> of the output patches allows us 
-            to visualize the learned pairwise affinities of pixels in the input. -->
-            Another way to visualize the network's output is through the pairwise affinities of pixels in the input.
-            For any query pixel, we visualize its spatial affinity with neighboring pixels
-            as the normalized sum of all of the junction segments that contain it.
-            In other words, for each pixel we visualize the weighted contribution of neighboring pixels during <i>slicing</i>.
-            Notably, the affinities respect image boundaries, so pixels across boundaries
-            seldom contribute to the query pixel's global outputs.
+            Another way to visualize our output $g[n]$ is through the pairwise affinities they imply.
+            We compute the spatial affinity between any query pixel $n$ and its neighbors $n'$
+            as the normalized sum of junction-segments that contain $n$.
+            These spatial affinities respect boundaries, and they serve as the filtering kernels
+            that convert the noisy input image colors to the output smooth ones.
             </p>
             </div>
         </div>
