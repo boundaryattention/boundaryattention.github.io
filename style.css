@@ -255,11 +255,16 @@ button.active {
     color: var(--background-color); /* Slightly lighter color for the text */
 }
 
+.icon a{
+    text-decoration: none;
+}
+
 .icon {
     display: inline-flex;
     height: 1rem;
     width: 1rem;
 }
+
 
 .ai {
     font-family: 'Academicons';
