@@ -2,11 +2,12 @@
 <html>
 
 <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
     <!--Main Scripts-->
-    <link rel="stylesheet" type="text/css" href="style.css">
-    <script src="script.js" defer></script>
+    <link rel="stylesheet" type="text/css" href="./style.css">
+    <script src="./script.js" defer></script>
     <!-- MatJax -->
     <script type="text/x-mathjax-config">
         MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
@@ -22,8 +23,8 @@
     <link rel="stylesheet" type="text/css" href="utils/slick/slick-theme.css"/>
     <script type="text/javascript" src="utils/slick/slick.min.js" defer></script>
     <!--Favicon-->
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
+    <link rel="icon" href="./favicon.ico" type="image/x-icon">
     <!--Twenty Twenty Theme-->
     <link rel="stylesheet" href="utils/twentytwenty/twentytwenty.css" type="text/css" media="screen" />
     <script src="utils/twentytwenty/jquery.event.move.js" type="text/javascript" defer></script>
@@ -35,17 +36,17 @@
 <body>
 <div class="toggle-container">
     <button id="toggleButton" class="inactive">Dark Mode</button>
-
     <div id="navigateAndButton">
     <a href=#menu class="scroll-link"><button id="jumpTo">Navigate</button></a>
     <div id="navigation-content">
     <div id="navigation">
         <span class="inline-heading-2"><a href=#header class="scroll-link">Return to Top</a></span>
-        <span class="inline-heading"><a href=#Overview class="scroll-link">1. Overview</a></span>
+        <span class="inline-heading"><a href=#ImageDemo class="scroll-link">1. Introduction </a></span>
         <span class="inline-heading"><a href=#ModelDetails class="scroll-link">2. Model Details</a></span>
-        <p><a href=#JunctionSpace class="scroll-link">a. Junction Space</a></p>
-        <p><a href=#BAModel class="scroll-link">b. Boundary Attention</a></p>
-        <p><a href=#Training class="scroll-link">c. Training Data</a></p>
+        <p><a href=#Process class="scroll-link">a. Overview</a></p>
+        <p><a href=#JunctionSpace class="scroll-link">b. Junction Space</a></p>
+        <p><a href=#BAModel class="scroll-link">c. Boundary Attention</a></p>
+        <p><a href=#Training class="scroll-link">d. Training Data</a></p>
         <span class="inline-heading"><a href=#ModelBehavior class="scroll-link">3. Emergent Properties</a></span> 
         <p><a href=#NaturalImages class="scroll-link">a. Natural Images</a></p>
         <p><a href=#ELDOutput class="scroll-link">b. Low Light Boundary Detection</a></p>
@@ -66,7 +67,7 @@
 
     <div class="header", id="header">
         <h1>Boundary Attention</h1>
-        <p class="subheading">Learning to Find Faint Boundaries at Any Resolution</p>
+        <p class="subheading">Learning to Localize Boundaries Under High Noise</p>
         <p class="paper-links">
             
             <a href="https://drive.google.com/file/d/1p-l9fcywBSRhmncbJLCHJXAiosPcLT6M/view?usp=sharing" target="_blank">
@@ -128,10 +129,10 @@
         <div class="grid-container", id="DemoGrid">
             <div class="image-container-in" id="imageContainerIn">
                 <div class="interactive-icon", id="demoFinger">
-                    <img src="images/interactive.png">
+                    <img src="./images/interactive.png">
                 </div>
                 <div class="cursor-box" id="cursorBox" ></div>
-                <img src="images/demo_image1/input_image.png" alt="Inputs" id="mainImage">
+                <img src="./images/demo_image1/input_image.png" alt="Inputs" id="mainImage">
             </div>
             <div class="image-container-out2">
                 <div class="custom-cursor2" id="customCursor2"></div>  
@@ -182,22 +183,21 @@
 
     <div class="section", id="Overview">
 
-        <h2>Overview</h2>
+        <!-- <h2>Overview</h2> -->
         <div class="subsection">
         <p>
         We introduce a lightweight, bottom-up model that infers color-based boundaries with high-precision.
-        Output boundaries are represented by pixel-resolution vector fields that encode three-way
+        Output boundaries are represented by a field of embeddings that encode three-way
         partitions and associated windowing functions of every stride-1 patch in an image.
         This output can express a variety of boundary elements, including contours,
         thin bars, corners, T-junctions and Y-junctions.
         It expresses them without rasterization, and so with unlimited resolution. 
         <p>
         The figure's bottom row shows these outputs as you scroll,
-        with each patch's partition visualized by both its boundaries and its segment colors.
-        Various "foldings" of these overlapping patches lead to the pixel-resolution output maps
-        in the figure's top row: a boundary-aware smoothing of the input colors, a global boundary map
-        (represented by as an unsigned distance function), and the spatial affinities between each pixel
-        and all of its neighbors. 
+        with each patch's partition visualized by its boundaries, its segment colors, and its associated windowing function.
+        Various global accumulations of these overlapping patches lead to the pixel-resolution output maps
+        in the figure's top row: a boundary-aware smoothing of the input colors, a global boundary map,
+        and the spatial affinities between each pixel and all of its neighbors. 
         </p>
         <p>
         The core of our model is a specialized form of neighborhood self-attention
@@ -217,56 +217,74 @@
     <div class="section", id="ModelDetails">
         <h2>Model Details</h2>
 
+        <div class="subsection" id="Process">
+          <h2>Overview</h2>
+          <div id="modelOverview">
+              <img src="images/Overview.png" class="image" id="modelOverview">
+              </div>
+          <p>
+          At a high level, our model learns a field of special geometric embeddings for every patch in an image.
+          The input image unfolds into stride-1 patches, and <a href="#BAModel" class="scroll-link">boundary attention</a> operates iteratively on their embeddings to produce for each patch:
+          $(\bf{i})$ a parametric three-way partitioning, and $(\bf{ii})$
+          a parametric windowing function that defines its effective patch size.
+          This output field implies a variety of global maps, shown in clockwise order:
+          a boundary-aware smoothing of the input colors; an unsigned boundary-distance map;
+          a boundary map; and a map of spatial affinities between any query point and its neighbors.
+          </p>
+      </div>
+
         <div class="subsection" id="JunctionSpace">
             <h2>Representing Per-Patch Boundaries in Junction Space</h2>
             <p>
-            We describe each patch's three-way partition by parameters $g \in \mathbb{R}^2 \times \mathbb{S}^1 \times \Delta^2$,
+            We describe each patch's three-way partition<span>&#8212;</span>referred to as a junction<span>&#8212;</span>by parameters $g \in \mathbb{R}^2 \times \mathbb{S}^1 \times \Delta^2$,
             comprising a vertex $(u,v)$, orientation $\theta$ and relative angles
             $(\omega_1,\omega_2,\omega_3)$ that sum to $2\pi$.
-            The partition implies an unsigned distance map to the patch's boundaries.
             </p>
             <p>
-            By allowing the vertex to move outside of the patch and allowing one or two angles to be zero,
-            this parameter space, called junction space, can represent a variety of local boundary patterns,
+            Walks in junction space are spatially smooth and can represent a variety of local boundary patterns,
             including uniformity (i.e., absence of boundaries), edges, bars, corners, T-junctions and Y-junctions.
+            These local boundary patterns can be visualized by moving the slider bar in $\text{A}$.
+            To the right, we show each junction's implied unsigned distance map.
             </p>
-            <p>If you are familiar with the <a href="https://vision.seas.harvard.edu/foj/" target="_blank" rel="noopener noreferrer">field of junctions</a>, 
+            <p>
+            Our method also associates each junction with a learned spatial windowing function.
+            In $\text{B}$, we show how a junction is modulated through its windowing function.
+            The windowing parameters $\mathbf{p} = (p_1, p_2, p_3)$ are convex weights over a dictionary of binary pillboxes.
+            This modification allows our model to vary boundaries according to local context in order to represent
+            both fine and coarse details.
+            </p>
+            <!-- <p>If you are familiar with the <a href="https://vision.seas.harvard.edu/foj/" target="_blank" rel="noopener noreferrer">field of junctions</a>, 
             our parameterization is a variation of theirs, with the addition of local windowing functions that avoid having to choose a specific patch size.
-            </p>
+            </p> -->
         </div>
 
         <div class="junction-visualization">
-            <div class="junction-demo">
-                <div id="junction-display">
-                    <img id="current-junction-image" src="images/interpolation/interpolation_40.png">
+                <div id="demo-background">
+                <img src="images/website_junction_base.png">
                 </div>
-                
-                <div class="slider-container">
-                    <input type="range" class="image-slider" id="junctionSliderContainer" min="1" max="9" step="Any">
-                    <!-- <div class="slider-ticks-2">
-                        <div class="slider-tick-container">
-                            <span class="tick"></span>
-                            <span class="tick"></span>
-                            <span class="tick"></span>
-                            <span class="tick"></span>
-                            <span class="tick"></span>
-                            <span class="tick"></span>
-                            <span class="tick"></span>
-                        </div>
-                    </div> -->
-                    <img src="images/junction_interpolation_v2.png">
-                </div>
-            </div>
-            <div id="junctionNotation">
-                <img src="images/JunctionNotation.png">
-            </div>
+
+
+                <div class="junction-demo">
+                  <div></div>
+                  <div id="jdemo">
+                    <div id="junction-display">
+                        <img id="current-junction-image" src="images/interpolation/interpolation_40.png">
+                    </div>
+                    
+                    <div class="slider-container">
+                        <input type="range" class="image-slider" id="junctionSliderContainer" min="1" max="9" step="Any">
+                        <img src="images/junction_interpolation_v2.png">
+                    </div>
+                </div> <!--jdemo-->
+                </div> <!--junction-demo-->
         </div>
+      
+
+
 
         <div class="subsection" id="BAModel">
             <h2>Boundary Attention</h2>
-            <div id="networkImage">
-                <img src="images/network.png" class="image" id="networkImage">
-                </div>
+
             <p>
             Our model produces the output vector fields by learning an embedding $\gamma$ of junction parameters
             $g$ and iteratively updating the pixel-resolution field of these embeddings $\gamma[n]$ using a
@@ -280,6 +298,10 @@
             to discrete spatial shifts and so applies to inputs of any size. It is also fairly compact,
             with only 207k parameters.
             </p>
+
+            <div id="networkImage">
+              <img src="images/network.png" class="image" id="networkImage">
+          </div>
         </div>
 
         <div class="subsection", id="Training">
@@ -520,7 +542,7 @@
     <div id="citation">
         <h2>BibTeX</h2>
         <code id="myCode">@article{mia2023boundaries,
-            author    = {Polansky, Mia and Herrmann, Charles and Hur, Junhwa and Sun, Deqing
+            author    = {Polansky, Mia Gaia and Herrmann, Charles and Hur, Junhwa and Sun, Deqing
                         and Verbin, Dor and Zickler, Todd},
             title     = {Boundary Attention: Learning to Find Faint Boundaries at Any Resolution},
             journal   = {arXiv},

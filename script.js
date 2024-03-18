@@ -65,6 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     navigationButton.addEventListener("mouseenter", (event) => {
         navigation.style.display = 'flex';
+        navigation.style.zIndex = 10000;
     });
 
     navigation.addEventListener("mouseleave", (event) => {
@@ -136,7 +137,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Twentytwenty
     $('#before-after').imagesLoaded( function() {
         $('#before-after').twentytwenty({
-            no_overlay: true, //Do not show the overlay with before and after
+          before_label: 'Upsampled',
+          after_label: 'Bilinear',
+          no_overlay: false, //Do not show the overlay with before and after
         });
     });
 
@@ -250,8 +253,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Load the cursors
     positionCursorAtCenter(mainImage, cursorBox, borderWidth, boxSize);
     positionCursorAtCenter(mainImageOut1, customCursor1, 0, 0);
-    positionCursorAtCenter(mainImageOut2, customCursor2, borderWidth, boxSize);
-    positionCursorAtCenter(mainImageOut3, customCursor3, borderWidth, boxSize);
+    positionCursorAtCenter(mainImageOut1, customCursor2, borderWidth, boxSize);
+    positionCursorAtCenter(mainImageOut1, customCursor3, borderWidth, boxSize);
 
     // Move all cursors simultaneously
     const moveCursors = (x, y) => {
@@ -382,65 +385,65 @@ document.addEventListener('DOMContentLoaded', () => {
         positionCursorAtCenter(mainImageOut3, customCursor3, borderWidth, boxSize);
     }
 
-    // input1.addEventListener('click', (event) => {
-    //     changeImageFolder('images/demo_image1')
-    //     centerZoomedImage(zoomedImage1);
-    //     centerZoomedImage(zoomedImage2);
-    //     centerZoomedImage(zoomedImage3);
-    //     centerZoomedImage(zoomedImage4);
+    input1.addEventListener('click', (event) => {
+        changeImageFolder('images/demo_image1')
+        centerZoomedImage(zoomedImage1);
+        centerZoomedImage(zoomedImage2);
+        centerZoomedImage(zoomedImage3);
+        centerZoomedImage(zoomedImage4);
 
-    //     // Load the cursors
-    //     positionCursorAtCenter(mainImage, cursorBox, borderWidth, boxSize);
-    //     positionCursorAtCenter(mainImageOut1, customCursor1, 0, 0);
-    //     positionCursorAtCenter(mainImageOut2, customCursor2, borderWidth, boxSize);
-    //     positionCursorAtCenter(mainImageOut3, customCursor3, borderWidth, boxSize);
+        // Load the cursors
+        positionCursorAtCenter(mainImage, cursorBox, borderWidth, boxSize);
+        positionCursorAtCenter(mainImageOut1, customCursor1, 0, 0);
+        positionCursorAtCenter(mainImageOut2, customCursor2, borderWidth, boxSize);
+        positionCursorAtCenter(mainImageOut3, customCursor3, borderWidth, boxSize);
 
         
-    // });
-    // input2.addEventListener('click', (event) => {
-    //     changeImageFolder('images/demo_image_bike') 
-    //     centerZoomedImage(zoomedImage1);
-    //     centerZoomedImage(zoomedImage2);
-    //     centerZoomedImage(zoomedImage3);
-    //     centerZoomedImage(zoomedImage4);
+    });
+    input2.addEventListener('click', (event) => {
+        changeImageFolder('images/demo_image_bike') 
+        centerZoomedImage(zoomedImage1);
+        centerZoomedImage(zoomedImage2);
+        centerZoomedImage(zoomedImage3);
+        centerZoomedImage(zoomedImage4);
 
-    //     // Load the cursors
-    //     positionCursorAtCenter(mainImage, cursorBox, borderWidth, boxSize);
-    //     positionCursorAtCenter(mainImageOut1, customCursor1, 0, 0);
-    //     positionCursorAtCenter(mainImageOut2, customCursor2, borderWidth, boxSize);
-    //     positionCursorAtCenter(mainImageOut3, customCursor3, borderWidth, boxSize);
+        // Load the cursors
+        positionCursorAtCenter(mainImage, cursorBox, borderWidth, boxSize);
+        positionCursorAtCenter(mainImageOut1, customCursor1, 0, 0);
+        positionCursorAtCenter(mainImageOut2, customCursor2, borderWidth, boxSize);
+        positionCursorAtCenter(mainImageOut3, customCursor3, borderWidth, boxSize);
 
-    // });
+    });
 
-    // input3.addEventListener('click', (event) => {
-    //     changeImageFolder('images/demo_image_pinwheel') 
-    //     centerZoomedImage(zoomedImage1);
-    //     centerZoomedImage(zoomedImage2);
-    //     centerZoomedImage(zoomedImage3);
-    //     centerZoomedImage(zoomedImage4);
+    input3.addEventListener('click', (event) => {
+        changeImageFolder('images/demo_image_pinwheel') 
+        centerZoomedImage(zoomedImage1);
+        centerZoomedImage(zoomedImage2);
+        centerZoomedImage(zoomedImage3);
+        centerZoomedImage(zoomedImage4);
 
-    //     // Load the cursors
-    //     positionCursorAtCenter(mainImage, cursorBox, borderWidth, boxSize);
-    //     positionCursorAtCenter(mainImageOut1, customCursor1, 0, 0);
-    //     positionCursorAtCenter(mainImageOut2, customCursor2, borderWidth, boxSize);
-    //     positionCursorAtCenter(mainImageOut3, customCursor3, borderWidth, boxSize);
+        // Load the cursors
+        positionCursorAtCenter(mainImage, cursorBox, borderWidth, boxSize);
+        positionCursorAtCenter(mainImageOut1, customCursor1, 0, 0);
+        positionCursorAtCenter(mainImageOut2, customCursor2, borderWidth, boxSize);
+        positionCursorAtCenter(mainImageOut3, customCursor3, borderWidth, boxSize);
 
-    // });
+    });
 
-    // input4.addEventListener('click', (event) => {
-    //     changeImageFolder('images/demo_image_temple') 
-    //     centerZoomedImage(zoomedImage1);
-    //     centerZoomedImage(zoomedImage2);
-    //     centerZoomedImage(zoomedImage3);
-    //     centerZoomedImage(zoomedImage4);
+    input4.addEventListener('click', (event) => {
+        changeImageFolder('images/demo_image_temple') 
+        centerZoomedImage(zoomedImage1);
+        centerZoomedImage(zoomedImage2);
+        centerZoomedImage(zoomedImage3);
+        centerZoomedImage(zoomedImage4);
 
-    //     // Load the cursors
-    //     positionCursorAtCenter(mainImage, cursorBox, borderWidth, boxSize);
-    //     positionCursorAtCenter(mainImageOut1, customCursor1, 0, 0);
-    //     positionCursorAtCenter(mainImageOut2, customCursor2, borderWidth, boxSize);
-    //     positionCursorAtCenter(mainImageOut3, customCursor3, borderWidth, boxSize);
+        // Load the cursors
+        positionCursorAtCenter(mainImage, cursorBox, borderWidth, boxSize);
+        positionCursorAtCenter(mainImageOut1, customCursor1, 0, 0);
+        positionCursorAtCenter(mainImageOut2, customCursor2, borderWidth, boxSize);
+        positionCursorAtCenter(mainImageOut3, customCursor3, borderWidth, boxSize);
 
-    // });
+    });
 
     demoBox.addEventListener('mouseleave', (event) => {
         requestAnimationFrame(() => {
