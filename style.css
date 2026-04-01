@@ -1,30 +1,30 @@
 :root {
     --background-color: #ffffff; 
-    --dark-buttons-color: #4a5568;  /* Deep Slate */
-    --buttons-color: #718096;       /* Medium Gray-Blue */
-    --buttons-hover-color: #2d3748; /* Dark Charcoal */
-    --text-color: #2d3748;
-    --labels-color: #4a5568;
-    --box-color: #f7fafc;           /* Very Light Grey-Blue */
-    --box-border-color: #cbd5e0;    /* Soft Silver border */
-    --headings-color: #1a202c;      /* Near Black */
-    --subheadings-color: #4a5568;   /* Muted Slate */
-    --subheadings2-color: #edf2f7;  /* Off-White/Grey */
-    --links-color: #2b6cb0;         /* Professional Blue for links */
+    --dark-buttons-color: #a396a8;
+    --buttons-color: #bdadc1;
+    --buttons-hover-color: #a393a7;
+    --text-color: #4e4e4e;
+    --labels-color: #4d464f;
+    --box-color: #ede6ef;
+    --box-border-color: #99999a;
+    --headings-color: #4e4e4e;
+    --subheadings-color: #a57db2;
+    --subheadings2-color: #ece3ee;
+    --links-color: #ac97b0;
 }
 
 :root.darkmode {
-    --background-color: #1a202c;    /* Deep Navy/Grey */
-    --light-buttons-color: #cbd5e0;
-    --dark-buttons-color: #2d3748;
-    --buttons-color: #4a5568;
-    --buttons-hover-color: #718096;
-    --text-color: #edf2f7;
-    --labels-color: #a0aec0;
+    --background-color: #635060;
+    --light-buttons-color: #ccb9cc;
+    --dark-buttons-color: #5b485b;
+    --buttons-color: #9d889d;
+    --buttons-hover-color: #8e778e;
+    --text-color: #ece9f2;
+    --labels-color: #e5ddeb;
     --headings-color: #ffffff;
-    --subheadings-color: #cbd5e0;
-    --subheadings2-color: #4a5568;
-    --links-color: #63b3ed;         /* Lighter Blue for Dark Mode */
+    --subheadings-color: #c1a8ca;
+    --subheadings2-color: #d7b2e3;
+    --links-color: #bca9c1;
 }
 
 body {
