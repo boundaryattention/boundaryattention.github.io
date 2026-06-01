@@ -12,36 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     $('.input-selection').on('afterChange', onSlideChange);
 
-    const toggleButton = document.getElementById("toggleButton");
-    const root = document.documentElement;
-
-    // Check if user's preference is stored
-    const darkModeEnabled = localStorage.getItem("darkModeEnabled");
-
-    // Set the initial mode based on user's preference
-    if (darkModeEnabled === "true") {
-        root.classList.add("darkmode");
-        toggleButton.classList.toggle("inactive");
-        toggleButton.classList.toggle("active");
-        toggleButton.textContent = "Light Mode";
-    }
-
-    toggleButton.addEventListener("click", () => {
-        root.classList.toggle("darkmode");
-        toggleButton.classList.toggle("active");
-        toggleButton.classList.toggle("inactive");
-
-        // Store user's preference in localStorage
-        const isDarkMode = root.classList.contains("darkmode");
-        localStorage.setItem("darkModeEnabled", isDarkMode);
-
-        if (toggleButton.classList.contains("active")) {
-            toggleButton.textContent = "Light Mode";
-          } else {
-            toggleButton.textContent = "Dark Mode";
-        }
-      });
-
       // Define scroll links
       const scrollLinks = document.querySelectorAll('.scroll-link');
 
@@ -463,4 +433,3 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 });
-

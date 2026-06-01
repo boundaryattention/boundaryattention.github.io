@@ -1,30 +1,16 @@
 :root {
-    --background-color: #ffffff; 
-    --dark-buttons-color: #a396a8;
-    --buttons-color: #bdadc1;
-    --buttons-hover-color: #a393a7;
-    --text-color: #4e4e4e;
-    --labels-color: #4d464f;
-    --box-color: #ede6ef;
-    --box-border-color: #99999a;
-    --headings-color: #4e4e4e;
-    --subheadings-color: #a57db2;
-    --subheadings2-color: #ece3ee;
-    --links-color: #ac97b0;
-}
-
-:root.darkmode {
-    --background-color: #635060;
-    --light-buttons-color: #ccb9cc;
-    --dark-buttons-color: #5b485b;
-    --buttons-color: #9d889d;
-    --buttons-hover-color: #8e778e;
-    --text-color: #ece9f2;
-    --labels-color: #e5ddeb;
-    --headings-color: #ffffff;
-    --subheadings-color: #c1a8ca;
-    --subheadings2-color: #d7b2e3;
-    --links-color: #bca9c1;
+    --background-color: #ffffff;
+    --dark-buttons-color: #9aa0a6;
+    --buttons-color: #e5e7eb;
+    --buttons-hover-color: #d4d8dd;
+    --text-color: #3c4043;
+    --labels-color: #5f6368;
+    --box-color: #f1f3f4;
+    --box-border-color: #c6cace;
+    --headings-color: #202124;
+    --subheadings-color: #5f6368;
+    --subheadings2-color: #3c4043;
+    --links-color: #3c4043;
 }
 
 body {
@@ -94,7 +80,7 @@ button {
     margin-left: 5px;
     cursor: pointer;
     font-size: 1em;
-    color: white;
+    color: var(--headings-color);
     background-color: var(--buttons-color);
     border: none;
     border-radius: 12px;
@@ -130,24 +116,6 @@ button:hover {
 .coming-soon-button:hover::after {
     opacity: 1; /* Show the tooltip on hover */
 }
-
-/* Default style for the inactive state */
-button.inactive {
-    padding:  5px 5px;
-    width: 120px;
-    background-color: var(--dark-buttons-color);
-    color: var(--labels-color);
-    border-radius: 5px;
-  }
-  
-/* Style for the active state */
-button.active {
-    padding:  5px 5px;
-    width: 120px;
-    background-color: var(--light-buttons-color);
-    color: #ffffff;
-    border-radius: 5px;
-    }
 
 #jumpTo {
     padding:  5px 5px;
@@ -190,7 +158,7 @@ button.active {
     font-family: 'Google Sans', sans-serif;
     text-align: left;
     font-size: 14px;
-    color: var(--headings-color);
+    color: var(--subheadings2-color);
     text-decoration: bold;
     margin-bottom: -5px;
 }
@@ -209,12 +177,12 @@ button.active {
 }
 
 #navigation p a{
-    color: var(--labels-color); /* Slightly lighter color for the text */
+    color: var(--subheadings2-color); /* Slightly lighter color for the text */
     text-decoration: none;
 }
 
 #navigation p a:hover{
-    color: var(--dark-buttons-color); /* Slightly lighter color for the text */
+    color: var(--headings-color); /* Slightly lighter color for the text */
 }
 
 .inline-heading {
@@ -233,7 +201,7 @@ button.active {
 }
 
 .inline-heading a:hover{
-    color: var(--background-color); /* Slightly lighter color for the text */
+    color: var(--headings-color); /* Slightly lighter color for the text */
 }
 
 
@@ -253,7 +221,7 @@ button.active {
 }
 
 .inline-heading-2 a:hover{
-    color: var(--background-color); /* Slightly lighter color for the text */
+    color: var(--headings-color); /* Slightly lighter color for the text */
 }
 
 .icon a{
@@ -331,7 +299,7 @@ button.active {
     padding: 20px;
     background-color: var(--buttons-color);
     /* box-shadow: 0 0 0 2px red; */
-    overflow: scroll;
+    overflow: visible;
     border-top-left-radius: 10px;     /* Top left corner */
     border-top-right-radius: 10px;    /* Top right corner */
     border-bottom-right-radius: 10px; /* Bottom right corner */
@@ -356,6 +324,10 @@ button.active {
     /* color: #888; */
     font-family: 'Google Sans', sans-serif;
     /* font-style: italic; */
+}
+
+.demo .label {
+    color: var(--subheadings2-color);
 }
 
 .interactive-icon {
@@ -607,6 +579,10 @@ button.active {
     border-radius: 50%;
     cursor: pointer;
     z-index: 2;
+}
+
+#junctionSliderContainer {
+    background: #9aa0a6;
 }
 
 .junction-visualization {
@@ -1204,7 +1180,7 @@ code {
     white-space: pre-wrap;
     word-wrap: break-word;
     text-align: left; /* Align text to the left */
-    background-color: var(--buttons-color); /* Light background for the section */
+    background-color: var(--box-color); /* Light background for the section */
     /* border: 5px solid var(--dark-buttons-color); */
     border-top-left-radius: 10px;     /* Top left corner */
     border-top-right-radius: 10px;    /* Top right corner */
